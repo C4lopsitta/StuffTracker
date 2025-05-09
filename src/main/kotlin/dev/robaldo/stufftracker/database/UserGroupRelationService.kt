@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.Table
 
 class UserGroupRelationService(database: Database): BaseService<Pair<String, String>> {
-    object DbTable : Table() {
+    object DbTable : Table("userGroupRelations") {
         val id = integer(name = "id").autoIncrement()
         val user = reference("userUid", UsersService.DbTable.uid, onDelete = ReferenceOption.CASCADE)
         val group = reference("usergroupUid", UserGroupsService.DbTable.uid, onDelete = ReferenceOption.CASCADE)

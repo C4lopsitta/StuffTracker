@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.Table
 
 class RoomsService(database: Database): BaseService<Room> {
-    object DbTable : Table() {
+    object DbTable : Table("rooms") {
         val uid = varchar("uid", 36)
         val name = varchar("name", length = 64)
 

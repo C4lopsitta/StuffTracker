@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.Table
 
 class TagsService(database: Database): BaseService<Tag> {
-    object DbTable : Table() {
+    object DbTable : Table("tags") {
         val id = integer("id").autoIncrement()
         val name = varchar("name", length = 64)
 

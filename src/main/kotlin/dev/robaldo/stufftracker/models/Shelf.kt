@@ -8,5 +8,6 @@ data class Shelf(
     val uid: String,
     val number: Int,
     val type: ShelfType,
+    val usedFor: String,
     val storage: Storage
 )

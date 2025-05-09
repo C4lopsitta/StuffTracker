@@ -7,10 +7,11 @@ import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.Table
 
 class ShelvesService(database: Database): BaseService<Shelf> {
-    object DbTable : Table() {
+    object DbTable : Table("shelves") {
         val uid = varchar("uid", 36)
         val number = integer("number")
         val type = enumeration("type", ShelfType::class)
+        val usedFor = varchar("usedFor", 36).index("shelvesUsedFor").nullable()
         val storage = reference("storageUid", StoragesService.DbTable.uid, ReferenceOption.CASCADE)
 
         override val primaryKey = PrimaryKey(uid)

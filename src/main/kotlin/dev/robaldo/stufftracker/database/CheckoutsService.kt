@@ -8,12 +8,13 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 
 class CheckoutsService(database: Database): BaseService<Checkout> {
-    object DbTable : Table() {
+    object DbTable : Table("checkouts") {
         val uid = varchar("uid", 36)
         val start = datetime("start").default(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()))
         val end = datetime("end").nullable()
-        val item = reference("itemuid", ItemsService.DbTable.uid, onDelete = ReferenceOption.CASCADE)
-        val user = reference("userUid", UserGroupsService.DbTable.uid, onDelete = ReferenceOption.CASCADE)
+        val plannedEnd = datetime("plannedEnd").nullable()
+        val item = reference("itemuid", ItemsService.DbTable.uid, onDelete = ReferenceOption.CASCADE).index("checkoutItem")
+        val user = reference("userUid", UserGroupsService.DbTable.uid, onDelete = ReferenceOption.CASCADE).index("checkoutUser")
 
         override val primaryKey = PrimaryKey(uid)
     }

@@ -1,5 +1,6 @@
 package dev.robaldo.stufftracker.models
 
+import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
 
@@ -8,6 +9,7 @@ data class Checkout(
     val uid: String,
     val item: Item,
     val user: User,
-    val start: Unit,
-    val end: Unit
+    val start: LocalDateTime,
+    val end: LocalDateTime,
+    val plannedEnd: LocalDateTime? = null,
 )

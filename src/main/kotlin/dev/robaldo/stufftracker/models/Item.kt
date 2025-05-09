@@ -11,5 +11,6 @@ data class Item(
     val owner: User? = null,
     val group: UserGroup? = null,
     val storageLocation: Shelf,
+    val canBeCheckedOut: Boolean = true,
     val tags: List<Tag> = emptyList()
 )

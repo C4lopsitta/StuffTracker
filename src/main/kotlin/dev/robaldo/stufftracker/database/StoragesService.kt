@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.Table
 
 class StoragesService(database: Database): BaseService<Storage> {
-    object DbTable : Table() {
+    object DbTable : Table("storages") {
         val uid = varchar("uid", 36)
         val name = varchar("name", length = 64)
         val type = enumeration("type", StorageType::class)
