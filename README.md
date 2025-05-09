@@ -3,12 +3,12 @@ StuffTracker is a stupid little inventory management for my house, so I won't fo
 It uses *KTOR* server, a simple *bearer* authentication system and uses exposed for interoperability across databases.
 
 ## ER Schema
+
 ```mermaid
 erDiagram
 
     User {
         string uid PK
-%%        -- Future fields TBD
         string name
         string surname
         string email
@@ -61,7 +61,6 @@ erDiagram
         string name UK
     }
 
-    %% Relationships
     Item ||--o{ Shelf : "stored_on"
     Shelf ||--o{ Storage : "in"
     Storage ||--o{ Room : "located_in"
