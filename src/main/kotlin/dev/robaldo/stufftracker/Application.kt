@@ -1,8 +1,12 @@
 package dev.robaldo.stufftracker
 
 import dev.robaldo.stufftracker.redis.Redis
+import dev.robaldo.stufftracker.routing.api.configureApi
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.contentnegotiation.*
 import io.lettuce.core.RedisClient
+import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.Database
 
 fun main(args: Array<String>) {
@@ -17,8 +21,17 @@ fun Application.module() {
         password = "",
     )
 
+    install(ContentNegotiation) {
+        json(Json{
+            prettyPrint = true
+            ignoreUnknownKeys = true
+        })
+    }
+
     configureSerialization()
-    configureDatabases(database)
     configureSecurity()
-    configureRouting()
+    configureDatabases(database)
+
+    configureApi(database)
+//    configureRouting()
 }

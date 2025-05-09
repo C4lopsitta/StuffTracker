@@ -34,6 +34,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-kotlin-datetime:$exposed_version")
 
     implementation("io.lettuce:lettuce-core:6.3.2.RELEASE")
+    implementation("io.ktor:ktor-serialization-gson:3.1.3")
 
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
