@@ -29,7 +29,7 @@ fun Application.module() {
     }
 
     configureSerialization()
-    configureSecurity()
+    configureSecurity(database)
     configureDatabases(database)
 
     configureApi(database)

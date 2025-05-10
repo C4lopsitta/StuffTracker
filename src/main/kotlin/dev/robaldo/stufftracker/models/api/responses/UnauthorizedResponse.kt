@@ -1,5 +1,5 @@
 package dev.robaldo.stufftracker.models.api.responses
 
-data class Error401 (
+data class UnauthorizedResponse (
     val error: String = "Unauthorized",
 )

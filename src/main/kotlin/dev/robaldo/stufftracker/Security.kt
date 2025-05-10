@@ -5,20 +5,25 @@ import dev.robaldo.stufftracker.models.User
 import dev.robaldo.stufftracker.redis.Redis
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
+import org.jetbrains.exposed.sql.Database
 
-data class UserPrincipal(val userUid: String, val newToken: String)
+data class UserPrincipal(val user: User, val newToken: String)
 
-fun Application.configureSecurity() {
+fun Application.configureSecurity(database: Database) {
+    val usersService = UsersService(database)
+
     install(Authentication) {
         bearer("bearer") {
             realm = "StuffTracker"
             authenticate { token ->
-                val result = Redis().use { redis ->
+                val newToken = Redis().use { redis ->
                     redis.validateAndRotateToken(token.token)
                 }
 
-                if(result.first != null) {
-                    UserPrincipal(result.second!!, result.first!!)
+                if(newToken.first != null) {
+                    val authenticatedUser = usersService.read(newToken.first!!) ?: return@authenticate null
+
+                    UserPrincipal(authenticatedUser, newToken.first!!)
                 }
 
                 return@authenticate null
