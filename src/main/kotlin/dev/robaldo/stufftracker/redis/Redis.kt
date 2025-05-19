@@ -21,7 +21,7 @@ class Redis: Closeable {
         return SHA3.getSha3_512().update(time + random).toString()
     }
 
-    suspend fun storeNewToken(user: User): String = storeNewToken(user.uid)
+    suspend fun storeNewToken(user: User): String = storeNewToken(user.uid!!)
 
     suspend fun storeNewToken(userUid: String): String = connection { conn ->
         val async = conn.async()

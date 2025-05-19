@@ -2,7 +2,9 @@ package dev.robaldo.stufftracker.database
 
 import dev.robaldo.stufftracker.models.Tag
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class TagsService(database: Database): BaseService<Tag> {
     object DbTable : Table("tags") {
@@ -10,6 +12,12 @@ class TagsService(database: Database): BaseService<Tag> {
         val name = varchar("name", length = 64)
 
         override val primaryKey = PrimaryKey(id)
+    }
+
+    init {
+        transaction(database) {
+            SchemaUtils.create(DbTable)
+        }
     }
 
     override suspend fun create(item: Tag): String {

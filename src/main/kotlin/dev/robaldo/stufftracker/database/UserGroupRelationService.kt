@@ -2,7 +2,9 @@ package dev.robaldo.stufftracker.database
 
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.ReferenceOption
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class UserGroupRelationService(database: Database): BaseService<Pair<String, String>> {
     object DbTable : Table("userGroupRelations") {
@@ -11,6 +13,12 @@ class UserGroupRelationService(database: Database): BaseService<Pair<String, Str
         val group = reference("usergroupUid", UserGroupsService.DbTable.uid, onDelete = ReferenceOption.CASCADE)
 
         override val primaryKey = PrimaryKey(id)
+    }
+
+    init {
+        transaction(database) {
+            SchemaUtils.create(DbTable)
+        }
     }
 
     override suspend fun create(item: Pair<String, String>): String {

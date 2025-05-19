@@ -3,7 +3,9 @@ package dev.robaldo.stufftracker.database
 import dev.robaldo.stufftracker.enums.UserRole
 import dev.robaldo.stufftracker.models.User
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class UsersService(database: Database): BaseService<User> {
     object DbTable : Table("users") {
@@ -15,6 +17,12 @@ class UsersService(database: Database): BaseService<User> {
         val role = enumeration("role", UserRole::class)
 
         override val primaryKey = PrimaryKey(uid)
+    }
+
+    init {
+        transaction(database) {
+            SchemaUtils.create(DbTable)
+        }
     }
 
     override suspend fun create(item: User): String {

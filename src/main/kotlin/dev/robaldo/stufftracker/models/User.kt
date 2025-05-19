@@ -7,12 +7,12 @@ import kotlinx.serialization.Transient
 
 @Serializable
 data class User(
-    val uid: String,
-    val name: String,
-    val surname: String,
-    val email: String,
+    val uid: String? = null,
+    val name: String? = null,
+    val surname: String? = null,
+    val email: String? = null,
     @Transient
     val password: String = "",
-    val role: UserRole,
+    val role: UserRole? = null,
     val groups: List<UserGroup> = listOf(),
 )

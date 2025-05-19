@@ -2,7 +2,9 @@ package dev.robaldo.stufftracker.database
 
 import dev.robaldo.stufftracker.models.UserGroup
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class UserGroupsService(database: Database): BaseService<UserGroup> {
     object DbTable : Table("usergroups") {
@@ -10,6 +12,12 @@ class UserGroupsService(database: Database): BaseService<UserGroup> {
         val name = varchar("name", length = 64)
 
         override val primaryKey = PrimaryKey(uid)
+    }
+
+    init {
+        transaction(database) {
+            SchemaUtils.create(DbTable)
+        }
     }
 
     override suspend fun create(item: UserGroup): String {

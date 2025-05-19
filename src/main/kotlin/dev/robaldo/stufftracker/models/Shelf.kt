@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Shelf(
-    val uid: String,
-    val number: Int,
-    val type: ShelfType,
-    val usedFor: String,
-    val storage: Storage
+    val uid: String? = null,
+    val number: Int? = null,
+    val type: ShelfType? = null,
+    val usedFor: String? = null,
+    val storage: Storage? = null,
 )

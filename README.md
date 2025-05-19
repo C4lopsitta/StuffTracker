@@ -60,16 +60,29 @@ erDiagram
         string uid PK
         string name UK
     }
+    
+    DiscArchive {
+        string uid PK
+        enum discType
+        string label UK
+        int discsUsed
+        string complessiveHash
+        bool isCompressed
+        enum archiveType
+        string itemUid FK
+    }
 
-    Item ||--o{ Shelf : "stored_on"
+    Item ||--o{ Shelf : "stored on"
     Shelf ||--o{ Storage : "in"
-    Storage ||--o{ Room : "located_in"
+    Storage ||--o{ Room : "located in"
     Checkout }o--|| Item : "takes"
     Checkout }o--|| User : "by"
     Item }o--o{ Tag : "is tagged as"
     User }|--o{ UserGroup : "is in"
     Item ||--o| User  : "owned by"
     Item ||--o| UserGroup  : "commonly owned by"
+    DiscArchive }o--o{ Tag : "is tagged as"
+    DiscArchive ||--o| Item : "stored as"
 ```
 
 

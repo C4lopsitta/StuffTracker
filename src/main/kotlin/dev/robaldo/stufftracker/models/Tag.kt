@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Tag(
-    val uid: String,
+    val id: Int,
     val name: String
 )

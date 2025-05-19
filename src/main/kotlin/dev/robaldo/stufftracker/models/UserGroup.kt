@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserGroup(
-    val uid: String,
-    val name: String,
-    val users: List<User>
+    val uid: String? = null,
+    val name: String? = null,
+    val users: List<User> = listOf()
 )

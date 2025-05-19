@@ -4,7 +4,9 @@ import dev.robaldo.stufftracker.enums.StorageType
 import dev.robaldo.stufftracker.models.Storage
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.ReferenceOption
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class StoragesService(database: Database): BaseService<Storage> {
     object DbTable : Table("storages") {
@@ -14,6 +16,12 @@ class StoragesService(database: Database): BaseService<Storage> {
         val room = reference("roomUid", RoomsService.DbTable.uid, ReferenceOption.CASCADE)
 
         override val primaryKey = PrimaryKey(uid)
+    }
+
+    init {
+        transaction(database) {
+            SchemaUtils.create(DbTable)
+        }
     }
 
     override suspend fun create(item: Storage): String {

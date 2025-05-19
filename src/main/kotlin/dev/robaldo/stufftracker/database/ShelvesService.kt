@@ -1,10 +1,13 @@
 package dev.robaldo.stufftracker.database
 
+import dev.robaldo.stufftracker.database.CheckoutsService.DbTable
 import dev.robaldo.stufftracker.enums.ShelfType
 import dev.robaldo.stufftracker.models.Shelf
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.ReferenceOption
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class ShelvesService(database: Database): BaseService<Shelf> {
     object DbTable : Table("shelves") {
@@ -15,6 +18,12 @@ class ShelvesService(database: Database): BaseService<Shelf> {
         val storage = reference("storageUid", StoragesService.DbTable.uid, ReferenceOption.CASCADE)
 
         override val primaryKey = PrimaryKey(uid)
+    }
+
+    init {
+        transaction(database) {
+            SchemaUtils.create(DbTable)
+        }
     }
 
     override suspend fun create(item: Shelf): String {

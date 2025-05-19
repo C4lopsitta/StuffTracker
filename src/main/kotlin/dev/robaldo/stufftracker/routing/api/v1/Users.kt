@@ -19,10 +19,8 @@ import org.jetbrains.exposed.sql.Database
  * @see [UsersService]
  * @author Simone Robaldo
  */
-fun Application.configureApiV1UsersRoutes(database: Database) {
+fun Application.configureApiV1UsersRoutes(usersService: UsersService) {
     val rootPath = "/api/v1/users"
-
-    val usersService = UsersService(database)
 
     routing {
         authenticate("bearer") {
@@ -56,7 +54,13 @@ fun Application.configureApiV1UsersRoutes(database: Database) {
 
                 call.respond( HttpStatusCode.InternalServerError, InternalServerError() )
             }
-        }
 
+            put("$rootPath/{uid}") {
+                val userUid = call.parameters["uid"]
+                val principal = call.authentication.principal<UserPrincipal>()!!
+
+                
+            }
+        }
     }
 }

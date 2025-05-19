@@ -1,8 +1,11 @@
 package dev.robaldo.stufftracker.database
 
+import dev.robaldo.stufftracker.database.CheckoutsService.DbTable
 import dev.robaldo.stufftracker.models.Room
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class RoomsService(database: Database): BaseService<Room> {
     object DbTable : Table("rooms") {
@@ -10,6 +13,12 @@ class RoomsService(database: Database): BaseService<Room> {
         val name = varchar("name", length = 64)
 
         override val primaryKey = PrimaryKey(uid)
+    }
+
+    init {
+        transaction(database) {
+            SchemaUtils.create(DbTable)
+        }
     }
 
     override suspend fun create(item: Room): String {
